@@ -1,11 +1,11 @@
 # FiveM RedM Snippets
 
-ส่วนขยาย Zed ที่ใส่ snippet ของสคริปต์ Lua สำหรับ FiveM และ RedM ส่วนขยายนี้ไม่ได้จัดทำหรือรับรองโดย Cfx.re
+ส่วนขยาย Zed สำหรับสคริปต์ Lua ของ FiveM และ RedM ให้ snippet ตอนพิมพ์ และส่ง definition ของ native ให้ Lua Language Server ส่วนขยายนี้ไม่ได้จัดทำหรือรับรองโดย Cfx.re definition ใน `plugin/` มาจาก [overextended/fivem-lls-addon](https://github.com/overextended/fivem-lls-addon) (MIT)
 
 ## สิ่งที่ต้องมี
 
 - [Zed](https://zed.dev)
-- ส่วนขยาย **Lua** ของ Zed เพื่อให้ไฟล์ `.lua` ถูกจับเป็นภาษา Lua
+- ส่วนขยาย **Lua** ของ Zed เพื่อให้ไฟล์ `.lua` ถูกจับเป็นภาษา Lua และมี `lua-language-server`
 
 ## ติดตั้ง
 
@@ -42,3 +42,25 @@ git clone https://github.com/PHUMWIWAT/zed-fivem-redm-snippets.git
 | `PlayerPedId` | ped ของผู้เล่นกับ coords |
 
 แก้หรือเพิ่ม snippet ได้ที่ `snippets/lua.json` แล้วติดตั้ง dev extension ซ้ำ
+
+## Native
+
+เปิดไฟล์ `.lua` ใน resource แล้วพิมพ์ชื่อฟังก์ชันตรง ๆ เช่น `PlayerPedId` หรือ `RegisterCommand` Lua Language Server จะเติมจาก definition ใน `plugin/` ค่าเริ่มต้นคือ GTA V (`runtime` + `CFX-NATIVE` + `GTAV`)
+
+definition นี้มีไว้ให้ตัวแก้ไขรู้จักชื่อฟังก์ชัน เกมเป็นคนเรียกตอนรัน resource
+
+สลับไป RedM ได้ใน settings ของ Zed:
+
+```json
+{
+  "lsp": {
+    "fivem-redm": {
+      "settings": {
+        "game": "rdr3"
+      }
+    }
+  }
+}
+```
+
+จากนั้นรัน `editor: restart language server` ถ้าเพิ่งติดตั้งหรือเพิ่งเปลี่ยนเกม ให้ติดตั้ง dev extension ซ้ำแล้วเปิด Zed ใหม่ก่อน restart language server

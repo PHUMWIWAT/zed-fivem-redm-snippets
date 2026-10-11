@@ -1,8 +1,14 @@
 id = "fivem-redm-native-snippets"
 name = "FiveM RedM Snippets"
-version = "0.0.1"
+version = "0.0.2"
 schema_version = 1
 authors = ["PHUMWIWAT <phumwiwat2547@gmail.com>"]
-description = "Lua snippets for FiveM and RedM."
+description = "Lua snippets and native definitions for FiveM and RedM."
 
 snippets = ["./snippets/lua.json"]
+
+# Not attached to Lua. Zed would try to launch this server for .lua files.
+# The server entry only exists so natives can be added to lua-language-server.
+[language_servers.fivem-redm]
+name = "FiveM RedM"
+languages = ["FiveMRedM"]
