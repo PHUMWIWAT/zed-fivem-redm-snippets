@@ -45,18 +45,18 @@ git clone https://github.com/PHUMWIWAT/zed-fivem-redm-snippets.git
 
 ## Native
 
-เปิดไฟล์ `.lua` ใน resource แล้วพิมพ์ชื่อฟังก์ชันตรง ๆ เช่น `PlayerPedId` หรือ `RegisterCommand` Lua Language Server จะเติมจาก definition ใน `plugin/` ค่าเริ่มต้นคือ GTA V (`runtime` + `CFX-NATIVE` + `GTAV`)
+เปิดไฟล์ `.lua` ใน resource แล้วพิมพ์ชื่อฟังก์ชันตรง ๆ เช่น `RegisterCommand` Lua Language Server จะเติมจาก definition ใน `plugin/` ค่าเริ่มต้นคือ `runtime` กับ `CFX-NATIVE`
 
 definition นี้มีไว้ให้ตัวแก้ไขรู้จักชื่อฟังก์ชัน เกมเป็นคนเรียกตอนรัน resource
 
-สลับไป RedM ได้ใน settings ของ Zed:
+ถ้าต้องการ native ของเกมด้วย ให้ตั้ง `game` เป็น `gtav` หรือ `rdr3`:
 
 ```json
 {
   "lsp": {
     "fivem-redm": {
       "settings": {
-        "game": "rdr3"
+        "game": "gtav"
       }
     }
   }

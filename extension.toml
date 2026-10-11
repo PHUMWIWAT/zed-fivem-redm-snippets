@@ -1,6 +1,6 @@
 id = "fivem-redm-native-snippets"
 name = "FiveM RedM Snippets"
-version = "0.0.3"
+version = "0.0.4"
 schema_version = 1
 authors = ["PHUMWIWAT <phumwiwat2547@gmail.com>"]
 description = "Lua snippets and native definitions for FiveM and RedM."

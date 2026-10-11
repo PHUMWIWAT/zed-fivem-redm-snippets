@@ -6,10 +6,11 @@ use zed_extension_api::{self as zed, Result};
 
 struct FiveMRedMExtension;
 
-fn game_folder(game: Option<&str>) -> &'static str {
+fn game_folder(game: Option<&str>) -> Option<&'static str> {
     match game {
-        Some(game) if game.eq_ignore_ascii_case("rdr3") => "RDR3",
-        _ => "GTAV",
+        Some(game) if game.eq_ignore_ascii_case("gtav") => Some("GTAV"),
+        Some(game) if game.eq_ignore_ascii_case("rdr3") => Some("RDR3"),
+        _ => None,
     }
 }
 
@@ -31,10 +32,17 @@ fn extension_dir_from_work(work: &std::path::Path) -> PathBuf {
     installed.unwrap_or_else(|| work.to_path_buf())
 }
 
-fn lua_library(game: &str) -> Result<zed::serde_json::Value> {
+fn lua_library(game: Option<&str>) -> Result<zed::serde_json::Value> {
     let plugin = extension_dir_from_work(&env::current_dir().map_err(|err| err.to_string())?)
         .join("plugin");
     let natives = plugin.join("library").join("natives");
+    let mut library = vec![
+        slash_path(plugin.join("library").join("runtime")),
+        slash_path(natives.join("CFX-NATIVE")),
+    ];
+    if let Some(game) = game_folder(game) {
+        library.push(slash_path(natives.join(game)));
+    }
 
     Ok(zed::serde_json::json!({
         "Lua": {
@@ -46,11 +54,7 @@ fn lua_library(game: &str) -> Result<zed::serde_json::Value> {
                 ]
             },
             "workspace": {
-                "library": [
-                    slash_path(plugin.join("library").join("runtime")),
-                    slash_path(natives.join("CFX-NATIVE")),
-                    slash_path(natives.join(game))
-                ],
+                "library": library,
                 "ignoreDir": [".vscode", ".git", ".github", "node_modules", "\\[cfx\\]"]
             }
         }
@@ -92,7 +96,7 @@ impl zed::Extension for FiveMRedMExtension {
                     .map(str::to_owned)
             });
 
-        Ok(Some(lua_library(game_folder(game.as_deref()))?))
+        Ok(Some(lua_library(game.as_deref())?))
     }
 }
 
@@ -105,11 +109,11 @@ mod tests {
     use super::{extension_dir_from_work, game_folder};
 
     #[test]
-    fn game_defaults_to_gtav_and_accepts_rdr3() {
-        assert_eq!(game_folder(None), "GTAV");
-        assert_eq!(game_folder(Some("gtav")), "GTAV");
-        assert_eq!(game_folder(Some("RDR3")), "RDR3");
-        assert_eq!(game_folder(Some("nope")), "GTAV");
+    fn game_defaults_to_cfx_native() {
+        assert_eq!(game_folder(None), None);
+        assert_eq!(game_folder(Some("nope")), None);
+        assert_eq!(game_folder(Some("gtav")), Some("GTAV"));
+        assert_eq!(game_folder(Some("RDR3")), Some("RDR3"));
     }
 
     #[test]
