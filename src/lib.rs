@@ -48,7 +48,6 @@ fn lua_library(game: Option<&str>) -> Result<zed::serde_json::Value> {
         "Lua": {
             "runtime": {
                 "version": "Lua 5.4",
-                "plugin": slash_path(plugin.join("plugin.lua")),
                 "nonstandardSymbol": [
                     "/**/", "`", "+=", "-=", "*=", "/=", "<<=", ">>=", "&=", "|=", "^="
                 ]
