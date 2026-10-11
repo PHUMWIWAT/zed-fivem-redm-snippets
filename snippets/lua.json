@@ -1,1 +1,154 @@
-{}
+{
+  "CreateThread": {
+    "prefix": "CreateThread",
+    "description": "CreateThread loop",
+    "body": [
+      "CreateThread(function()",
+      "\twhile true do",
+      "\t\tWait(${1:0})",
+      "\t\t$0",
+      "\tend",
+      "end)"
+    ]
+  },
+  "Citizen.CreateThread": {
+    "prefix": "Citizen.CreateThread",
+    "description": "Citizen.CreateThread loop",
+    "body": [
+      "Citizen.CreateThread(function()",
+      "\twhile true do",
+      "\t\tCitizen.Wait(${1:0})",
+      "\t\t$0",
+      "\tend",
+      "end)"
+    ]
+  },
+  "RegisterNetEvent": {
+    "prefix": "RegisterNetEvent",
+    "description": "Register a net event",
+    "body": [
+      "RegisterNetEvent('${1:eventName}', function(${2:...})",
+      "\t$0",
+      "end)"
+    ]
+  },
+  "AddEventHandler": {
+    "prefix": "AddEventHandler",
+    "description": "Add an event handler",
+    "body": [
+      "AddEventHandler('${1:eventName}', function(${2:...})",
+      "\t$0",
+      "end)"
+    ]
+  },
+  "RegisterCommand": {
+    "prefix": "RegisterCommand",
+    "description": "Register a command",
+    "body": [
+      "RegisterCommand('${1:command}', function(source, args, rawCommand)",
+      "\t$0",
+      "end, ${2:false})"
+    ]
+  },
+  "TriggerServerEvent": {
+    "prefix": "TriggerServerEvent",
+    "description": "Trigger a server event",
+    "body": [
+      "TriggerServerEvent('${1:eventName}'$0)"
+    ]
+  },
+  "TriggerClientEvent": {
+    "prefix": "TriggerClientEvent",
+    "description": "Trigger a client event",
+    "body": [
+      "TriggerClientEvent('${1:eventName}', ${2:source}$0)"
+    ]
+  },
+  "TriggerEvent": {
+    "prefix": "TriggerEvent",
+    "description": "Trigger a local event",
+    "body": [
+      "TriggerEvent('${1:eventName}'$0)"
+    ]
+  },
+  "RegisterNUICallback": {
+    "prefix": "RegisterNUICallback",
+    "description": "Register an NUI callback",
+    "body": [
+      "RegisterNUICallback('${1:callback}', function(data, cb)",
+      "\t$0",
+      "\tcb('ok')",
+      "end)"
+    ]
+  },
+  "PerformHttpRequest": {
+    "prefix": "PerformHttpRequest",
+    "description": "HTTP request",
+    "body": [
+      "PerformHttpRequest('${1:url}', function(status, body, headers)",
+      "\t$0",
+      "end, '${2:GET}')"
+    ]
+  },
+  "fxmanifest gta5": {
+    "prefix": "fxmanifest",
+    "description": "FiveM fxmanifest header",
+    "body": [
+      "fx_version 'cerulean'",
+      "game 'gta5'",
+      "",
+      "client_script '${1:client.lua}'",
+      "server_script '${2:server.lua}'",
+      "$0"
+    ]
+  },
+  "fxmanifest rdr3": {
+    "prefix": "fxmanifest-rdr3",
+    "description": "RedM fxmanifest header",
+    "body": [
+      "fx_version 'cerulean'",
+      "game 'rdr3'",
+      "",
+      "client_script '${1:client.lua}'",
+      "server_script '${2:server.lua}'",
+      "$0"
+    ]
+  },
+  "client_script": {
+    "prefix": "client_script",
+    "description": "fxmanifest client script",
+    "body": [
+      "client_script '${1:client.lua}'"
+    ]
+  },
+  "server_script": {
+    "prefix": "server_script",
+    "description": "fxmanifest server script",
+    "body": [
+      "server_script '${1:server.lua}'"
+    ]
+  },
+  "shared_script": {
+    "prefix": "shared_script",
+    "description": "fxmanifest shared script",
+    "body": [
+      "shared_script '${1:shared.lua}'"
+    ]
+  },
+  "vector3": {
+    "prefix": "vector3",
+    "description": "vector3",
+    "body": [
+      "vector3(${1:0.0}, ${2:0.0}, ${3:0.0})"
+    ]
+  },
+  "PlayerPedId": {
+    "prefix": "PlayerPedId",
+    "description": "Local ped and coords",
+    "body": [
+      "local ped = PlayerPedId()",
+      "local coords = GetEntityCoords(ped)",
+      "$0"
+    ]
+  }
+}

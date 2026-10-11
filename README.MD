@@ -1,13 +1,11 @@
 # FiveM RedM Snippets
 
-ส่วนขยาย Zed สำหรับสคริปต์ Lua ของ FiveM และ RedM ส่งไลบรารี native และ runtime ให้ [Lua Language Server](https://github.com/LuaLS/lua-language-server) ตามโครงของ [cfxlua-vscode](https://github.com/overextended/cfxlua-vscode)
-
-ไฟล์ type อยู่ใน `plugin/` และมาจาก [overextended/fivem-lls-addon](https://github.com/overextended/fivem-lls-addon) (สัญญาอนุญาต MIT) ส่วนขยายนี้ไม่ได้จัดทำหรือรับรองโดย Cfx.re
+ส่วนขยาย Zed ที่ใส่ snippet ของสคริปต์ Lua สำหรับ FiveM และ RedM ส่วนขยายนี้ไม่ได้จัดทำหรือรับรองโดย Cfx.re
 
 ## สิ่งที่ต้องมี
 
 - [Zed](https://zed.dev)
-- ส่วนขยาย **Lua** ของ Zed ซึ่งเป็นตัวที่ติดตั้ง `lua-language-server`
+- ส่วนขยาย **Lua** ของ Zed เพื่อให้ไฟล์ `.lua` ถูกจับเป็นภาษา Lua
 
 ## ติดตั้ง
 
@@ -17,52 +15,30 @@
 git clone https://github.com/PHUMWIWAT/zed-fivem-redm-snippets.git
 ```
 
-ใน Zed เปิด command palette แล้วรัน `zed: install dev extension` เลือกโฟลเดอร์ที่โคลนมา
-
-ถ้าเคยเปิดไฟล์ Lua อยู่แล้ว ให้รีสตาร์ท language server ด้วย `lua-language-server: restart language server` หรือเปิด Zed ใหม่
+ใน Zed เปิด command palette แล้วรัน `zed: install dev extension` เลือกโฟลเดอร์ที่โคลนมา จากนั้นเปิด Zed ใหม่
 
 ## การใช้งาน
 
-เปิดไฟล์ `.lua` ของ resource แล้ว completion กับ hover ของ native จะมาจาก LuaLS
+เปิดไฟล์ `.lua` แล้วพิมพ์ prefix ด้านล่าง snippet จะโผล่ในรายการ completion
 
-ค่าเริ่มต้นคือเกม **GTAV** ไลบรารีที่ถูกเปิดคือ:
+| พิมพ์ | ได้ |
+| --- | --- |
+| `CreateThread` | ลูป `CreateThread` + `Wait` |
+| `Citizen.CreateThread` | ลูปแบบ `Citizen.*` |
+| `RegisterNetEvent` | ลงทะเบียน net event |
+| `AddEventHandler` | handler ของ event |
+| `RegisterCommand` | คำสั่ง |
+| `TriggerServerEvent` | ยิงไปเซิร์ฟเวอร์ |
+| `TriggerClientEvent` | ยิงไปไคลเอนต์ |
+| `TriggerEvent` | ยิงในเครื่องเดียวกัน |
+| `RegisterNUICallback` | callback ของ NUI |
+| `PerformHttpRequest` | เรียก HTTP |
+| `fxmanifest` | หัว `fxmanifest.lua` สำหรับ GTA V |
+| `fxmanifest-rdr3` | หัว `fxmanifest.lua` สำหรับ RedM |
+| `client_script` | บรรทัด client script |
+| `server_script` | บรรทัด server script |
+| `shared_script` | บรรทัด shared script |
+| `vector3` | `vector3(x, y, z)` |
+| `PlayerPedId` | ped ของผู้เล่นกับ coords |
 
-- `plugin/library/runtime`
-- `plugin/library/natives/CFX-NATIVE`
-- `plugin/library/natives/GTAV`
-
-runtime เป็น Lua 5.4 และเปิดสัญลักษณ์ของ LuaGLM เช่น `+=` และ `` ` ``
-
-### เปลี่ยนเป็น RedM
-
-ใส่ใน Zed settings (`zed: open settings file`):
-
-```json
-{
-  "lsp": {
-    "fivem-redm": {
-      "settings": {
-        "game": "rdr3"
-      }
-    }
-  }
-}
-```
-
-ค่า `game` ที่ใช้ได้คือ `gtav` และ `rdr3` หลังแก้แล้วรีสตาร์ท `lua-language-server`
-
-### Snippet ของตัวเอง
-
-เพิ่ม snippet ใน `snippets/lua.json` ไฟล์นี้ใช้กับภาษา Lua ตัวอย่าง:
-
-```json
-{
-  "Create thread": {
-    "prefix": "thread",
-    "body": ["CreateThread(function()", "\t$0", "end)"],
-    "description": "CreateThread wrapper"
-  }
-}
-```
-
-หลังแก้ไฟล์ snippet ให้ติดตั้ง dev extension ซ้ำ หรือรีโหลด Zed
+แก้หรือเพิ่ม snippet ได้ที่ `snippets/lua.json` แล้วติดตั้ง dev extension ซ้ำ

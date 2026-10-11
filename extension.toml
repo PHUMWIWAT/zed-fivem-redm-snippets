@@ -3,11 +3,6 @@ name = "FiveM RedM Snippets"
 version = "0.0.1"
 schema_version = 1
 authors = ["PHUMWIWAT <phumwiwat2547@gmail.com>"]
-description = "FiveM and RedM natives for LuaLS, using the cfxlua library layout."
+description = "Lua snippets for FiveM and RedM."
 
 snippets = ["./snippets/lua.json"]
-
-[language_servers.fivem-redm]
-name = "FiveM RedM"
-languages = ["Lua"]
-opt_in_languages = ["Lua"]
