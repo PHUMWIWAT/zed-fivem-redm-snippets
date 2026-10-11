@@ -1,55 +1,57 @@
 # FiveM RedM Snippets
 
-ส่วนขยาย Zed สำหรับสคริปต์ Lua ของ FiveM และ RedM ให้ snippet ตอนพิมพ์ และส่ง definition ของ native ให้ Lua Language Server ส่วนขยายนี้ไม่ได้จัดทำหรือรับรองโดย Cfx.re definition ใน `plugin/` มาจาก [overextended/fivem-lls-addon](https://github.com/overextended/fivem-lls-addon) (MIT)
+A [Zed](https://zed.dev) extension for FiveM and RedM Lua. It adds snippets while you type, and it gives Lua Language Server the CitizenFX definitions in `plugin/`.
 
-## สิ่งที่ต้องมี
+This project is not made or endorsed by Cfx.re. The definitions in `plugin/` come from [overextended/fivem-lls-addon](https://github.com/overextended/fivem-lls-addon) (MIT).
+
+## Requirements
 
 - [Zed](https://zed.dev)
-- ส่วนขยาย **Lua** ของ Zed เพื่อให้ไฟล์ `.lua` ถูกจับเป็นภาษา Lua และมี `lua-language-server`
+- Zed's **Lua** extension, so `.lua` files are the Lua language and `lua-language-server` is available
 
-## ติดตั้ง
+## Install
 
-โคลน repo แล้วติดตั้งเป็น dev extension:
+The extension is not in Zed's extension list yet. Clone this repository and install it as a dev extension:
 
 ```powershell
 git clone https://github.com/PHUMWIWAT/zed-fivem-redm-snippets.git
 ```
 
-ใน Zed เปิด command palette แล้วรัน `zed: install dev extension` เลือกโฟลเดอร์ที่โคลนมา จากนั้นเปิด Zed ใหม่
+Open the command palette and run `zed: install dev extension`. Choose the cloned folder, then reopen Zed.
 
-## การใช้งาน
+## Snippets
 
-เปิดไฟล์ `.lua` แล้วพิมพ์ prefix ด้านล่าง snippet จะโผล่ในรายการ completion
+Open a `.lua` file and type one of these prefixes. The snippet appears in the completion list.
 
-| พิมพ์ | ได้ |
+| Prefix | Inserts |
 | --- | --- |
-| `CreateThread` | ลูป `CreateThread` + `Wait` |
-| `Citizen.CreateThread` | ลูปแบบ `Citizen.*` |
-| `RegisterNetEvent` | ลงทะเบียน net event |
-| `AddEventHandler` | handler ของ event |
-| `RegisterCommand` | คำสั่ง |
-| `TriggerServerEvent` | ยิงไปเซิร์ฟเวอร์ |
-| `TriggerClientEvent` | ยิงไปไคลเอนต์ |
-| `TriggerEvent` | ยิงในเครื่องเดียวกัน |
-| `RegisterNUICallback` | callback ของ NUI |
-| `PerformHttpRequest` | เรียก HTTP |
-| `fxmanifest` | หัว `fxmanifest.lua` สำหรับ GTA V |
-| `fxmanifest-rdr3` | หัว `fxmanifest.lua` สำหรับ RedM |
-| `client_script` | บรรทัด client script |
-| `server_script` | บรรทัด server script |
-| `shared_script` | บรรทัด shared script |
+| `CreateThread` | `CreateThread` loop with `Wait` |
+| `Citizen.CreateThread` | The same loop as `Citizen.*` |
+| `RegisterNetEvent` | A net event registration |
+| `AddEventHandler` | An event handler |
+| `RegisterCommand` | A command |
+| `TriggerServerEvent` | A server event |
+| `TriggerClientEvent` | A client event |
+| `TriggerEvent` | A local event |
+| `RegisterNUICallback` | An NUI callback |
+| `PerformHttpRequest` | An HTTP request |
+| `fxmanifest` | An `fxmanifest.lua` header for GTA V |
+| `fxmanifest-rdr3` | An `fxmanifest.lua` header for RedM |
+| `client_script` | A client script line |
+| `server_script` | A server script line |
+| `shared_script` | A shared script line |
 | `vector3` | `vector3(x, y, z)` |
-| `PlayerPedId` | ped ของผู้เล่นกับ coords |
+| `PlayerPedId` | The local ped and its coords |
 
-แก้หรือเพิ่ม snippet ได้ที่ `snippets/lua.json` แล้วติดตั้ง dev extension ซ้ำ
+Edit `snippets/lua.json` to change them, then install the dev extension again.
 
-## Native
+## Natives
 
-เปิดไฟล์ `.lua` ใน resource แล้วพิมพ์ชื่อฟังก์ชันตรง ๆ เช่น `RegisterCommand` Lua Language Server จะเติมจาก definition ใน `plugin/` ค่าเริ่มต้นคือ `runtime` กับ `CFX-NATIVE`
+In a resource `.lua` file, type a function name such as `RegisterCommand`. Lua Language Server completes it from the definitions in `plugin/`. Those files only tell the editor the names. The game still calls the functions when the resource runs.
 
-definition นี้มีไว้ให้ตัวแก้ไขรู้จักชื่อฟังก์ชัน เกมเป็นคนเรียกตอนรัน resource
+By default the extension loads `plugin/library/runtime` and `plugin/library/natives/CFX-NATIVE`. It does not run `plugin/plugin.lua`.
 
-ถ้าต้องการ native ของเกมด้วย ให้ตั้ง `game` เป็น `gtav` หรือ `rdr3`:
+To also load game natives, set `game` to `gtav` or `rdr3` in your Zed settings:
 
 ```json
 {
@@ -63,4 +65,6 @@ definition นี้มีไว้ให้ตัวแก้ไขรู้จ
 }
 ```
 
-จากนั้นรัน `editor: restart language server` ถ้าเพิ่งติดตั้งหรือเพิ่งเปลี่ยนเกม ให้ติดตั้ง dev extension ซ้ำแล้วเปิด Zed ใหม่ก่อน restart language server
+`gtav` adds `plugin/library/natives/GTAV`. `rdr3` adds `plugin/library/natives/RDR3`. Any other value keeps the default libraries.
+
+After you install the extension or change `game`, install the dev extension again, reopen Zed, and run `editor: restart language server`.
