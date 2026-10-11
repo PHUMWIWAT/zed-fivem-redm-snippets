@@ -17,9 +17,22 @@ fn slash_path(folder: PathBuf) -> String {
     folder.to_string_lossy().replace('\\', "/")
 }
 
+/// Zed's wasm process cwd is `extensions/work/<id>`, which only holds the build.
+/// The vendored `plugin/` directory is in `extensions/installed/<id>`.
+fn extension_dir_from_work(work: &std::path::Path) -> PathBuf {
+    let installed = work.parent().and_then(|work_root| {
+        if work_root.file_name().and_then(|name| name.to_str()) == Some("work") {
+            let id = work.file_name()?;
+            Some(work_root.parent()?.join("installed").join(id))
+        } else {
+            None
+        }
+    });
+    installed.unwrap_or_else(|| work.to_path_buf())
+}
+
 fn lua_library(game: &str) -> Result<zed::serde_json::Value> {
-    let plugin = env::current_dir()
-        .map_err(|err| err.to_string())?
+    let plugin = extension_dir_from_work(&env::current_dir().map_err(|err| err.to_string())?)
         .join("plugin");
     let natives = plugin.join("library").join("natives");
 
@@ -87,7 +100,9 @@ zed::register_extension!(FiveMRedMExtension);
 
 #[cfg(test)]
 mod tests {
-    use super::game_folder;
+    use std::path::Path;
+
+    use super::{extension_dir_from_work, game_folder};
 
     #[test]
     fn game_defaults_to_gtav_and_accepts_rdr3() {
@@ -95,5 +110,15 @@ mod tests {
         assert_eq!(game_folder(Some("gtav")), "GTAV");
         assert_eq!(game_folder(Some("RDR3")), "RDR3");
         assert_eq!(game_folder(Some("nope")), "GTAV");
+    }
+
+    #[test]
+    fn library_path_uses_the_installed_extension_dir() {
+        let work = Path::new(r"C:\Users\pummi\AppData\Local\Zed\extensions\work\fivem-redm-native-snippets");
+        let installed = extension_dir_from_work(work);
+        assert_eq!(
+            installed,
+            Path::new(r"C:\Users\pummi\AppData\Local\Zed\extensions\installed\fivem-redm-native-snippets")
+        );
     }
 }
