@@ -4,6 +4,7 @@ version = "0.0.5"
 schema_version = 1
 authors = ["PHUMWIWAT <phumwiwat2547@gmail.com>"]
 description = "Lua snippets and native definitions for FiveM and RedM."
+repository = "https://github.com/PHUMWIWAT/zed-fivem-redm-snippets"
 
 snippets = ["./snippets/lua.json"]
 
